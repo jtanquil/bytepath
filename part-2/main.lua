@@ -1,10 +1,34 @@
 Object = require 'libraries/classic/classic'
+Input = require 'libraries/boipushy/Input'
+
 start_time = love.timer.getTime()
 
 function love.load()
   local object_files = {}
   recursiveEnumerate('objects', object_files)
   requireFiles(object_files)
+
+  input = Input()
+  -- input:bind('mouse1', function() print(love.math.random()) end)
+  input:bind('=', 'add')
+  input:bind('a', 'add')
+  input:bind('=', 'diff')
+
+  sum = 0
+  diff = 0
+end
+
+
+function love.update(dt)
+  if input:down('add', 0.25) then
+    sum = sum + 1
+    print(sum)
+  end
+
+  if input:down('diff', 0.25) then
+    diff = diff - 1
+    print(diff)
+  end
 end
 
 function recursiveEnumerate(folder, file_list)
@@ -12,7 +36,6 @@ function recursiveEnumerate(folder, file_list)
 
   for _, item in ipairs(items) do
     local file = folder .. '/' .. item
-    print(file)
     file_type = love.filesystem.getInfo(file).type
 
     if file_type == 'file' then
@@ -50,16 +73,16 @@ end
 -- the table (meaning, after you do everything, the table should have an attribute 
 -- `c` with the value 6 in it).
 
-function returnTable()
-  return {
-      a = 1,
-      b = 2,
-      c = 3,
-      sum = function(self) self.c = self.a + self.b + self.c end,
-  }
-end
+-- function returnTable()
+--   return {
+--       a = 1,
+--       b = 2,
+--       c = 3,
+--       sum = function(self) self.c = self.a + self.b + self.c end,
+--   }
+-- end
 
-testTable = returnTable()
-testTable:sum()
+-- testTable = returnTable()
+-- testTable:sum()
 
-print(testTable.a, testTable.b, testTable.c)
+-- print(testTable.a, testTable.b, testTable.c)

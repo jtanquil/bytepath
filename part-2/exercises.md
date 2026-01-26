@@ -1,5 +1,7 @@
 ### Part 2 Exercises
 
+#### OOP Exercises
+
 8. What is the purpose of the `:` operator in Lua? How is it different from `.` and when should either be used?
 
 The `:` operator is Lua's way of implementing a version of execution context (`self` or `this` in other languages), and it can be used in function declarations of object/class methods and function invocations in place of the `.` operator:
@@ -69,3 +71,23 @@ return ClassName
 How would the `requireFiles` function need to be changed so that we could still automatically load all classes?
 
 Assigning each returned `ClassName` to the global table `_G` will ensure that the classes will be available throughout the program.
+
+#### Input Exercises
+
+15. Suppose we have the following code:
+
+```lua
+function love.load()
+    input = Input()
+    input:bind('mouse1', function() print(love.math.random()) end)
+```
+
+Will anything happen when `mouse1` is pressed? What about when it is released? And held down?
+
+When `mouse1` is pressed, the callback is invoked, but not when `mouse1` is released or while it is held down.
+
+17. Can multiple keys be bound to the same action? If not, why not? And can multiple actions be bound to the same key? If not, why not?
+
+Multiple keys can be bound to the same action, but at least for keeping keys down, separate keys bound to the same action do not count as separate instances of that action, since `input:down` only checks if the action is being performed at a given interval.
+
+Multiple actions can be bound to the same key, but the behavior of multiple checks is tied to the rate at which `love.update` runs, so having multiple checks via `input:down` with different held down rates can lead to unexpected behavior.
