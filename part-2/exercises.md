@@ -91,3 +91,5 @@ When `mouse1` is pressed, the callback is invoked, but not when `mouse1` is rele
 Multiple keys can be bound to the same action, but at least for keeping keys down, separate keys bound to the same action do not count as separate instances of that action, since `input:down` only checks if the action is being performed at a given interval.
 
 Multiple actions can be bound to the same key, but the behavior of multiple checks is tied to the rate at which `love.update` runs, so having multiple checks via `input:down` with different held down rates can lead to unexpected behavior.
+
+#### Timer Exercises
