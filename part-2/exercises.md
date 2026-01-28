@@ -92,4 +92,4 @@ Multiple keys can be bound to the same action, but at least for keeping keys dow
 
 Multiple actions can be bound to the same key, but the behavior of multiple checks is tied to the rate at which `love.update` runs, so having multiple checks via `input:down` with different held down rates can lead to unexpected behavior.
 
-#### Timer Exercises
+#### Table Exercises

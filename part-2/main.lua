@@ -1,6 +1,7 @@
 Object = require 'libraries/classic/classic'
 Input = require 'libraries/boipushy/Input'
 Timer = require 'libraries/hump/timer'
+M = require 'libraries/moses/moses'
 
 start_time = love.timer.getTime()
 
@@ -68,16 +69,16 @@ function love.load()
   -- 26. Bind the e key to expand the circle when pressed and the s key to
   -- shrink the circle when pressed. Each new key press should cancel any
   -- expansion/shrinking that is still happening.
-  input:bind('e', 'expand')
-  input:bind('s', 'shrink')
-  expand_handle = nil
-  shrink_handle = nil
+  -- input:bind('e', 'expand')
+  -- input:bind('s', 'shrink')
+  -- expand_handle = nil
+  -- shrink_handle = nil
 
   -- 27. Using only the tween function and without placing the a variable inside
   -- another table, how would you tween its value to 20 over 1 second using the
   -- linear tween mode?
-  a = 10
-  timer:tween(1, _G, {a = 20}, 'linear')
+  -- a = 10
+  -- timer:tween(1, _G, {a = 20}, 'linear')
 end
 
 
@@ -100,21 +101,21 @@ function love.update(dt)
   --   end)
   -- end
 
-  if input:pressed('expand') then
-    if shrink_handle then timer:cancel(shrink_handle) end
-    if expand_handle then timer:cancel(expand_handle) end
+  -- if input:pressed('expand') then
+  --   if shrink_handle then timer:cancel(shrink_handle) end
+  --   if expand_handle then timer:cancel(expand_handle) end
 
-    expand_handle = timer:tween(5, test_circle, {radius = test_circle.radius * 1.25}, 'in-out-cubic')
-  end
+  --   expand_handle = timer:tween(5, test_circle, {radius = test_circle.radius * 1.25}, 'in-out-cubic')
+  -- end
 
-  if input:pressed('shrink') then
-    if shrink_handle then timer:cancel(shrink_handle) end
-    if expand_handle then timer:cancel(expand_handle) end
+  -- if input:pressed('shrink') then
+  --   if shrink_handle then timer:cancel(shrink_handle) end
+  --   if expand_handle then timer:cancel(expand_handle) end
 
-    shrink_handle = timer:tween(5, test_circle, {radius = test_circle.radius * 0.75}, 'in-out-cubic')
-  end
+  --   shrink_handle = timer:tween(5, test_circle, {radius = test_circle.radius * 0.75}, 'in-out-cubic')
+  -- end
 
-  print(_G.a)
+  -- print(_G.a)
 
   timer:update(dt)
 end
@@ -181,3 +182,115 @@ end
 -- testTable:sum()
 
 -- print(testTable.a, testTable.b, testTable.c)
+
+a = {1, 2, '3', 4, '5', 6, 7, true, 9, 10, 11, a = 1, b = 2, c = 3, {1, 2, 3}}
+b = {1, 1, 3, 4, 5, 6, 7, false}
+c = {'1', '2', '3', 4, 5, 6}
+d = {1, 4, 3, 4, 5, 6}
+
+-- 28. Print the contents of the a table to the console using the each function.
+M.each(a, print)
+
+-- 29. Count the number of 1 values inside the b table.
+print("---")
+print(M.count(b, 1))
+
+-- 30. Add 1 to all the values of the d table using the map function.
+print("---")
+for k, v in pairs(M.map(d, function(v) return v + 1 end)) do
+  print(k, v)
+end
+
+-- 31. Using the map function, apply the following transformation to the a
+-- table: if the value is a number, it should be doubled; if the value is a 
+-- string, it should have 'xD' concatenated to it; if the value is a boolean,
+-- it should have its value flipped; and finally, if the value is a table it
+-- should be omitted.
+print("---")
+for k, v in pairs(M.map(a, function(v)
+  if type(v) == 'number' then
+    return v * 2
+  elseif type(v) == 'string' then
+    return v .. 'xD'
+  elseif type(v) == 'boolean' then
+    return not v
+  end
+end)) do
+    print(k, v)
+end
+
+-- 32. Sum all the values of the d list. The result should be 23.
+print("---")
+print(M.reduce(d, function(a, b) return a + b end, 0))
+
+-- 33. Suppose you have the following code:
+
+-- if _____ then
+--     print('table contains the value 9')
+-- end
+
+-- Which function from the library should be used in the underscored spot to 
+-- verify if the `b` table contains or doesn't contain the value 9?
+print("---")
+if M.include(b, 9) then
+  print('table contains the value 9')
+end
+
+-- 34. Find the first index in which the value 7 is found in the c table.
+print("---")
+print(M.detect(c, 7))
+
+-- 35. Filer the d table so that only numbers lower than 5 remain.
+print("---")
+for k, v in pairs(M.select(d, function(v) return v < 5 end)) do
+  print(k, v)
+end
+
+-- 36. Filter the c table so that only strings remain.
+print("---")
+for k, v in pairs(M.select(c, function(v) return type(v) == 'string' end)) do
+  print(k, v)
+end
+
+-- 37. Check if all values of the c and d tables are numbers or not. It should
+-- return false for the first and true for the second.
+print("---")
+print("c: " .. tostring(M.all(c, function(v) return type(v) == 'number' end)))
+print("d: " .. tostring(M.all(d, function(v) return type(v) == 'number' end)))
+
+-- 38. Shuffle the d table randomly.
+print("---")
+for k, v in pairs(M.shuffle(d, 3413)) do
+  print(k, v)
+end
+
+-- 39. Reverse the d table.
+print("---")
+for k, v in pairs(M.reverse(d)) do
+  print(k, v)
+end
+
+-- 40. Remove all occurrences of the values 1 and 4 from the d table.
+print("---")
+for k, v in pairs(M.reject(d, function(v) return v == 1 or v == 4 end)) do
+  print(k, v)
+end
+
+-- 41. Create a combination of the b, c and d tables that doesn't have any
+-- duplicates.
+print("---")
+for k, v in pairs(M.union(b, c, d)) do
+  print(k, v)
+end
+
+-- 42. Find the common values of the b and d tables.
+print("---")
+for k, v in pairs(M.intersection(b, d)) do
+  print(k, v)
+end
+
+-- 43. Append the b table to the d table.
+print("---")
+for k, v in pairs(M.append(d, b)) do
+  print(k, v)
+end
