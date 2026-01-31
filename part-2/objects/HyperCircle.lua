@@ -14,9 +14,13 @@ function HyperCircle:new(x, y, radius, line_width, outer_radius)
 end
 
 function HyperCircle:update(dt)
+  HyperCircle.super.update(self, dt)
+end
+
+function HyperCircle:draw()
   love.graphics.setColor(255, 255, 255)
   love.graphics.circle('fill', self.x, self.y, self.outer_radius)
   love.graphics.setColor(0, 0, 0)
   love.graphics.circle('fill', self.x, self.y, self.outer_radius - self.line_width)
-  self.super.update(self, dt)
+  self.super.draw(self)
 end

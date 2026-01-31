@@ -3,12 +3,12 @@ Input = require 'libraries/boipushy/Input'
 Timer = require 'libraries/hump/timer'
 M = require 'libraries/moses/moses'
 
-start_time = love.timer.getTime()
-
 function love.load()
   local object_files = {}
   recursiveEnumerate('objects', object_files)
   requireFiles(object_files)
+
+  test_hypercircle = HyperCircle(400, 300, 50, 10, 120)
 
   input = Input()
   -- input:bind('mouse1', function() print(love.math.random()) end)
@@ -57,7 +57,7 @@ function love.load()
   -- expands once and then shrinks once. How would you change the code so that
   -- it expands and shrinks continually forever?
   -- 25. Accomplish the results of the previous exercise using only the after function.
-  test_circle = Circle(400, 300, 50)
+  -- test_circle = Circle(400, 300, 50)
   -- shrink = true
 
   -- timer:after(1, function(f)
@@ -83,6 +83,10 @@ end
 
 
 function love.update(dt)
+  -- test_circle:update(dt)
+
+  test_hypercircle:update(dt)
+  
   -- if input:down('add', 0.25) then
   --   sum = sum + 1
   --   print(sum)
@@ -144,10 +148,9 @@ function requireFiles(files)
 end
 
 function love.draw()
-  test_circle:update(1)
+  -- test_circle:draw()
 
-  -- test_hypercircle = HyperCircle(400, 300, 50, 10, 120)
-  -- test_hypercircle:update(1)
+  test_hypercircle:draw()
 
   -- attrTest = AttributeMethod()
   -- print(attrTest.attFirst, attrTest.fnFirst)
